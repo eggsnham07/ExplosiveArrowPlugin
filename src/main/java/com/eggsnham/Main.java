@@ -59,7 +59,7 @@ public class Main extends JavaPlugin
                 cfg.createNewFile();
                 getLogger().info("Created new file: 'config.yml'");
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(); 
             }
         }
 
