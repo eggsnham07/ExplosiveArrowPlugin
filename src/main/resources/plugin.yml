@@ -1,0 +1,8 @@
+main: com.eggsnham.Main
+version: 0.1
+name: ExplosiveArrowPlugin
+api-version: 1.17
+commands:
+  create:
+    usage: /<command> [type] [amount] 
+  
