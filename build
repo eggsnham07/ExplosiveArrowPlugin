@@ -1,0 +1,3 @@
+cd /c/Users/eggsn/Documents/java/ExplosiveArrowPlugin
+mvn package && cp -r target/ExplosiveArrowPlugin-1.0-SNAPSHOT.jar /c/Users/eggsn/Desktop/world_1/plugins/ExplosiveArrowPlugin.jar
+echo task finished!
