@@ -32,7 +32,7 @@ public class ExplosiveArrow implements CommandExecutor{
                     && player.getInventory().containsAtLeast(new ItemStack(Material.GUNPOWDER), Integer.valueOf(args[1]))
                     && args[0].equals("arrow"))
             {
-                this.arrow.setAmount(Integer.valueOf(args[0]));
+                this.arrow.setAmount(Integer.valueOf(args[1]));
                 player.getInventory().addItem(this.arrow);
                 player.sendMessage(ChatColor.GREEN + "Successfully created " + args[0] + " explosive arrows");
             } else {
