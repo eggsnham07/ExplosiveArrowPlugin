@@ -19,7 +19,6 @@ public class Main extends JavaPlugin
     public void onEnable()
     {
         //init variables
-        String data = getData("/config.txt");
         ItemStack boomArrow = new ItemStack(Material.ARROW);
         ItemMeta bm = boomArrow.getItemMeta();
         List<String> lore = new ArrayList<>();
@@ -32,6 +31,13 @@ public class Main extends JavaPlugin
         getLogger().info("Starting!");
         //initialize config files
         initFile();
+
+        String data;
+        if(new File(this.getDataFolder() + "/config.txt").exists()) {
+            data = getData("/config.txt");
+        } else {
+            data = "debug=true\n";
+        }
         //register commands
         getCommand("create").setExecutor(new ExplosiveArrow(data, boomArrow));
         //set tab completers
@@ -88,6 +94,7 @@ public class Main extends JavaPlugin
     public String getData(String filename) {
         StringBuilder data = new StringBuilder("");
         List<String> arr = new ArrayList<>();
+
         try {
             File file = new File(this.getDataFolder() + filename);
             Scanner reader = new Scanner(file);
