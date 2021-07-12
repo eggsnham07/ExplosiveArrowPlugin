@@ -38,13 +38,13 @@ public class ExplosiveArrow implements CommandExecutor{
             } else {
                 player.sendMessage(ChatColor.RED + "You don't have enough arrows and/or gunpowder!");
             }
-        }
-        
-        if(data[0].equals("debug=true"))
-        {
-            sender.sendMessage(ChatColor.RED + "You are not a Player!" + ChatColor.BLUE + "\n===========DEBUG===========\n" + args[0] + "(s) requested: " + args[1] + "");
         } else {
-            sender.sendMessage(ChatColor.RED + "You are not a Player!");
+            if(data[0].equals("debug=true"))
+            {
+                sender.sendMessage(ChatColor.RED + "You are not a Player!" + ChatColor.BLUE + "\n===========DEBUG===========\n" + args[0] + "(s) requested: " + args[1] + "");
+            } else {
+                sender.sendMessage(ChatColor.RED + "You are not a Player!");
+            }
         }
 
         return true;
