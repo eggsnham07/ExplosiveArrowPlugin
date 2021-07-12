@@ -41,15 +41,12 @@ public class Main extends JavaPlugin
         Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowShootListener(boomArrow), this);
     }
 
-
-
     public void initFile() {
         File cfg = new File(this.getDataFolder().getAbsolutePath() + "/config.yml");
         File folder = new File(this.getDataFolder().getAbsolutePath() + "/");
         File debugLog = new File(this.getDataFolder().getAbsolutePath() + "/debug.log");
         File conf = new File(this.getDataFolder().getAbsolutePath() + "/config.txt");
 
-        if(folder.exists()) getLogger().info("Folder exists");
         if(!folder.exists()) {
             folder.mkdir();
         }
@@ -106,7 +103,6 @@ public class Main extends JavaPlugin
         } catch(FileNotFoundException ex) {
             ex.printStackTrace();
         }
-        getLogger().info(data.toString());
         return data.toString();
     }
 }

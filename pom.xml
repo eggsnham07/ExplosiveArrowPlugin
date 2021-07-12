@@ -6,7 +6,7 @@
 
     <groupId>com.eggsnham</groupId>
     <artifactId>ExplosiveArrowPlugin</artifactId>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.17.1-SNAPSHOT</version>
 
     <repositories>
         <repository>
