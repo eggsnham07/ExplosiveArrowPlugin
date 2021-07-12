@@ -1,5 +1,6 @@
 package com.eggsnham;
 
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +12,7 @@ public class ExplosiveArrowShootListener implements Listener {
 
     public ExplosiveArrowShootListener(ItemStack arrow) {
         this.arrow = arrow;
+        this.arrow.setAmount(1);
     }
 
 
@@ -22,8 +24,13 @@ public class ExplosiveArrowShootListener implements Listener {
 
             if(player.getInventory().getItemInOffHand().equals(this.arrow))
             {
-                event.getProjectile().setCustomName("explosive");
-                event.getProjectile().setCustomNameVisible(false);
+                event.setCancelled(true);
+                Class<Arrow> newarrow = Arrow.class;
+                Arrow larrow = player.launchProjectile(newarrow);
+                larrow.setCustomName("explosive");
+                larrow.setCustomNameVisible(false);
+                player.getInventory().removeItem(arrow);
+                player.updateInventory();
             }
         }
     }
