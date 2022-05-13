@@ -2,7 +2,11 @@ package com.eggsnham;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,7 +22,19 @@ public class Main extends JavaPlugin
 {
     public void onEnable()
     {
+        //log 'Starting!'
+        getLogger().info("Starting!");
+        //initialize config files
+        initFile();
+
         //init variables
+        File config = new File(this.getDataFolder().getAbsolutePath() + "/config.yml");
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(config);
+
+        Boolean enabled = cfg.getBoolean("tntArrow.enabled");
+        Boolean craftable = cfg.getBoolean("tntArrow.craftable");
+        Boolean debug = cfg.getBoolean("debug");
+
         ItemStack boomArrow = new ItemStack(Material.ARROW);
         ItemMeta bm = boomArrow.getItemMeta();
         List<String> lore = new ArrayList<>();
@@ -26,25 +42,22 @@ public class Main extends JavaPlugin
         //set explosive arrow lore
         lore.add("Explosive Arrow");
         bm.setLore(lore);
+        boomArrow.setItemMeta(bm);
 
-        //log 'Starting!'
-        getLogger().info("Starting!");
-        //initialize config files
-        initFile();
-
-        String data;
-        if(new File(this.getDataFolder() + "/config.txt").exists()) {
-            data = getData("/config.txt");
-        } else {
-            data = "debug=true\n";
-        }
         //register commands
-        getCommand("create").setExecutor(new ExplosiveArrow(data, boomArrow));
-        //set tab completers
+        getCommand("create").setExecutor(new ExplosiveArrow(debug, boomArrow, enabled));
+        //set tab completer
         getCommand("create").setTabCompleter(new ExplosiveArrowTab());
         //setup listeners
-        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowHitListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowShootListener(boomArrow), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowHitListener(enabled, debug), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowShootListener(boomArrow, enabled, debug), this);
+
+        getLogger().info("Enabled: " + enabled + "\nDebug: " + debug);
+
+        if(craftable)
+        {
+            EnableTntCrafting(boomArrow);
+        }
     }
 
     public void initFile() {
@@ -52,6 +65,7 @@ public class Main extends JavaPlugin
         File folder = new File(this.getDataFolder().getAbsolutePath() + "/");
         File debugLog = new File(this.getDataFolder().getAbsolutePath() + "/debug.log");
         File conf = new File(this.getDataFolder().getAbsolutePath() + "/config.txt");
+        FileConfiguration cfgWriter = YamlConfiguration.loadConfiguration(cfg);
 
         if(!folder.exists()) {
             folder.mkdir();
@@ -61,6 +75,10 @@ public class Main extends JavaPlugin
             try {
                 cfg.createNewFile();
                 getLogger().info("Created new file: 'config.yml'");
+                cfgWriter.set("tntArrow.craftable", true);
+                cfgWriter.set("tntArrow.enabled", true);
+                cfgWriter.set("debug", false);
+                cfgWriter.save(cfg);
             } catch (IOException e) {
                 e.printStackTrace(); 
             }
@@ -73,43 +91,22 @@ public class Main extends JavaPlugin
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } 
-        
-        if(!conf.exists()) {
-            try {
-                conf.createNewFile();
-
-                if(conf.exists()) {
-                    FileWriter writer = new FileWriter(this.getDataFolder() + "/config.txt");
-                    writer.write("debug=false\n");
-                    writer.close();
-                }
-                getLogger().info("Created new file: 'config.txt'");
-            } catch(IOException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
-    public String getData(String filename) {
-        StringBuilder data = new StringBuilder("");
-        List<String> arr = new ArrayList<>();
+    public void EnableTntCrafting(ItemStack arrow) {
+        NamespacedKey key = new NamespacedKey(this, "explosive-arrow");
+        arrow.setAmount(1);
 
-        try {
-            File file = new File(this.getDataFolder() + filename);
-            Scanner reader = new Scanner(file);
-            while(reader.hasNextLine()) {
-                arr.add(reader.nextLine());
-            }
-            reader.close();
-            
-            for(String str : arr) {
-                data.append(str);
-            }
+        ShapedRecipe tntArrowRecipe = new ShapedRecipe(key, arrow);
 
-        } catch(FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        return data.toString();
+        tntArrowRecipe.shape("aag", "asa", "faa");
+
+        tntArrowRecipe.setIngredient('a', Material.AIR);
+        tntArrowRecipe.setIngredient('s', Material.STICK);
+        tntArrowRecipe.setIngredient('g', Material.GUNPOWDER);
+        tntArrowRecipe.setIngredient('f', Material.FEATHER);
+
+        getServer().addRecipe(tntArrowRecipe);
     }
 }
