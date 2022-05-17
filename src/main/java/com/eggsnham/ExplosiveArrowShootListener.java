@@ -1,6 +1,6 @@
 package com.eggsnham;
 
-import org.bukkit.ChatColor;
+import com.eggsnham.Debug.DebugLogger;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -10,17 +10,20 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class ExplosiveArrowShootListener implements Listener {
+
+    DebugLogger Debug;
     ItemStack arrow;
     Boolean enabled;
     Boolean debug;
 
-    public ExplosiveArrowShootListener(ItemStack arrow, Boolean enabled, Boolean debug) {
-        this.enabled = enabled;
-        this.debug = debug;
+    public ExplosiveArrowShootListener(ItemStack arrow, Boolean debug, Boolean enabled, DebugLogger Debug) {
         this.arrow = arrow;
+        this.debug = debug;
+        this.enabled = enabled;
+        this.Debug = Debug;
+
         this.arrow.setAmount(1);
     }
-
 
     @EventHandler
     public void onShoot(EntityShootBowEvent event) {
@@ -41,9 +44,9 @@ public class ExplosiveArrowShootListener implements Listener {
                 }
                 player.updateInventory();
             }
-            else if(debug == true)
+            else if(debug)
             {
-                player.sendMessage(ChatColor.BLUE + "\n===========DEBUG===========\nenabled: " + enabled + "");
+                Debug.log("Normal arrow shot\n        at ExplosiveArrowListener.java:35");
             }
         }
     }

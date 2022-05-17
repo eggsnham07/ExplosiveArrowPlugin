@@ -1,16 +1,20 @@
 package com.eggsnham;
 
+import com.eggsnham.Debug.DebugLogger;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class ExplosiveArrowHitListener implements Listener {
+    DebugLogger Debug;
     Boolean enabled;
     Boolean debug;
-    public ExplosiveArrowHitListener(Boolean enabled, Boolean debug) {
+
+    public ExplosiveArrowHitListener(Boolean debug, Boolean enabled, DebugLogger Debug) {
         this.enabled = enabled;
         this.debug = debug;
+        this.Debug = Debug;
     }
 
     @EventHandler
@@ -20,7 +24,7 @@ public class ExplosiveArrowHitListener implements Listener {
             Arrow arrow = (Arrow)event.getEntity();
             if(arrow.getCustomName() != null)
             {
-                if (arrow.getCustomName().equals("explosive") && enabled == true)
+                if (arrow.getCustomName().equals("explosive") && enabled)
                 {
                     if(event.getHitEntity() != null) event.getEntity().getWorld().createExplosion(arrow.getLocation(), 10);
                     else event.getHitBlock().getWorld().createExplosion(arrow.getLocation(), 10);
@@ -28,8 +32,8 @@ public class ExplosiveArrowHitListener implements Listener {
                     event.getEntity().remove();
                 }
             } else {
-                if(this.debug == true) {
-                    System.out.println("===========DEBUG===========\nArrow had no name, so not explosive\nenabled: " + enabled + "\n\n");
+                if(debug) {
+                    Debug.log("Arrow had no name, so not explosive\n        at ExplosiveArrowHitListener.java:26");
                 }
             }
         }
