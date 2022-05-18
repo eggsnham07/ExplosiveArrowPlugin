@@ -11,7 +11,7 @@ public class ExplosiveArrowHitListener implements Listener {
     Boolean enabled;
     Boolean debug;
 
-    public ExplosiveArrowHitListener(Boolean debug, Boolean enabled, DebugLogger Debug) {
+    public ExplosiveArrowHitListener(Boolean enabled, Boolean debug, DebugLogger Debug) {
         this.enabled = enabled;
         this.debug = debug;
         this.Debug = Debug;

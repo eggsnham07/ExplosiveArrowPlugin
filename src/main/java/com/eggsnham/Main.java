@@ -89,7 +89,7 @@ public class Main extends JavaPlugin
                 //Set default variables
                 cfgWriter.set("tntArrow.craftable", true);
                 cfgWriter.set("tntArrow.enabled", true);
-                cfgWriter.set("debug", false);
+                cfgWriter.set("debug", true);
                 cfgWriter.save(cfg);
             } catch (IOException e) {
                 e.printStackTrace(); 

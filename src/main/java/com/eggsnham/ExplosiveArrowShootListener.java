@@ -16,7 +16,7 @@ public class ExplosiveArrowShootListener implements Listener {
     Boolean enabled;
     Boolean debug;
 
-    public ExplosiveArrowShootListener(ItemStack arrow, Boolean debug, Boolean enabled, DebugLogger Debug) {
+    public ExplosiveArrowShootListener(ItemStack arrow, Boolean enabled, Boolean debug, DebugLogger Debug) {
         this.arrow = arrow;
         this.debug = debug;
         this.enabled = enabled;
@@ -31,7 +31,7 @@ public class ExplosiveArrowShootListener implements Listener {
         {
             Player player = (Player)event.getEntity();
 
-            if(player.getInventory().getItemInOffHand().getAmount() > 0 && player.getInventory().getItemInOffHand().getItemMeta().getLore().get(0).equals("Explosive Arrow") && enabled == true)
+            if(player.getInventory().getItemInOffHand().getAmount() > 0 && player.getInventory().getItemInOffHand().getItemMeta().getLore().get(0).equals("Explosive Arrow") && enabled)
             {
                 event.setCancelled(true);
                 Class<Arrow> newarrow = Arrow.class;
@@ -46,7 +46,7 @@ public class ExplosiveArrowShootListener implements Listener {
             }
             else if(debug)
             {
-                Debug.log("Normal arrow shot\n        at ExplosiveArrowListener.java:35");
+                Debug.log("Normal arrow shot\n        at ExplosiveArrowListener.java:34");
             }
         }
     }
