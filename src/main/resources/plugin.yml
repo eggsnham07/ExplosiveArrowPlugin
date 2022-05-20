@@ -6,6 +6,7 @@ name: ExplosiveArrowPlugin
 api-version: 1.18
 commands:
   create:
+    description: Use this command to create plugin special items
     usage: /<command> [type] [amount] 
     aliases: [crt, make, build]
     permission: eap.create
