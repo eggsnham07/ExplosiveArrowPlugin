@@ -9,10 +9,3 @@ commands:
     description: Use this command to create plugin special items
     usage: /<command> [type] [amount] 
     aliases: [crt, make, build]
-    permission: eap.create
-
-permissions:
-  eap.create:
-    description: Create plugin special items
-    default: op
-  
