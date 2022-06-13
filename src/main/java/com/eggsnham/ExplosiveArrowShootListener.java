@@ -1,6 +1,6 @@
 package com.eggsnham;
 
-import com.eggsnham.Debug.DebugLogger;
+import com.eggsnham.DebugLogger;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;

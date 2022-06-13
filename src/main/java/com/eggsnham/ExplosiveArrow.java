@@ -1,6 +1,6 @@
 package com.eggsnham;
 
-import com.eggsnham.Debug.DebugLogger;
+import com.eggsnham.DebugLogger;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.*;

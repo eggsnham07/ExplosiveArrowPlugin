@@ -1,7 +1,6 @@
 package com.eggsnham;
 
-import com.eggsnham.Debug.DebugLogger;
-import com.eggsnham.Debug.Level;
+import com.eggsnham.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,7 +19,7 @@ import java.util.List;
 public class Main extends JavaPlugin
 {
     public File debugLog = new File(getDataFolder().getAbsolutePath() + "/debug.log");
-    public DebugLogger Debug = new DebugLogger(debugLog);
+    public DebugLogger debugLogger = new DebugLogger(debugLog);
     public Boolean debug = true;
     public Boolean craftable;
     public Boolean enabled;
@@ -39,7 +38,7 @@ public class Main extends JavaPlugin
         enabled = cfg.getBoolean("tntArrow.enabled");
         craftable = cfg.getBoolean("tntArrow.craftable");
         this.debug = cfg.getBoolean("debug");
-        if(debug) Debug.log("Plugin has started!");
+        if(debug) debugLogger.log("Plugin has started!");
         //Define the explosive arrow ItemStack
         ItemMeta bm = boomArrow.getItemMeta();
         List<String> lore = new ArrayList<>();
@@ -49,24 +48,24 @@ public class Main extends JavaPlugin
         boomArrow.setItemMeta(bm);
 
         //register commands
-        getCommand("create").setExecutor(new ExplosiveArrow(boomArrow, enabled, debug, Debug));
+        getCommand("create").setExecutor(new ExplosiveArrow(boomArrow, enabled, debug, debugLogger));
         //set tab completer
         getCommand("create").setTabCompleter(new ExplosiveArrowTab());
         //setup listeners
-        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowHitListener(enabled, debug, Debug), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowShootListener(boomArrow, enabled, debug, Debug), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowHitListener(enabled, debug, debugLogger), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ExplosiveArrowShootListener(boomArrow, enabled, debug, debugLogger), this);
         //Tell the console if debug is enabled for the plugin
         getLogger().info("Debug: " + debug);
         //Check if crafting the explosive arrow is allowed, if so create new recipe for it
         if(craftable)
         {
             EnableTntCrafting(boomArrow);
-            if(debug) Debug.log("Crafting explosive arrows is enabled!", Level.WARNING);
+            if(debug) debugLogger.log("Crafting explosive arrows is enabled!", DebugLevel.WARNING);
         }
     }
 
     public void onDisable() {
-        if(debug) Debug.log("Plugin stopping...\n\n\n");
+        if(debug) debugLogger.log("Plugin stopping...\n\n\n");
     }
 
     public void initFile() {
