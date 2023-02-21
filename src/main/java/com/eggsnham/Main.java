@@ -18,8 +18,7 @@ import java.util.List;
 
 public class Main extends JavaPlugin
 {
-    public File debugLog = new File(getDataFolder().getAbsolutePath() + "/debug.log");
-    public DebugLogger debugLogger = new DebugLogger(debugLog);
+    public DebugLogger debugLogger = new DebugLogger(this);
     public Boolean debug = true;
     public Boolean craftable;
     public Boolean enabled;
@@ -60,7 +59,7 @@ public class Main extends JavaPlugin
         if(craftable)
         {
             EnableTntCrafting(boomArrow);
-            if(debug) debugLogger.log("Crafting explosive arrows is enabled!", DebugLevel.WARNING);
+            if(debug) debugLogger.log("Crafting explosive arrows is enabled!");
         }
     }
 
